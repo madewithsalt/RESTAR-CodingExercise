@@ -25,9 +25,9 @@ The rest was provided by `Vite.js` default React/Typescript project scaffolding.
 - API Type definitions specific to this project can be found in `types/api.d.ts`
 
 #### Uploader Behavior and LocalStorage
-Because this is a static-hosted website with no live backend, I have leveraged local browser DataStorage to persist uploaded files in memory for demonstration purposes. I have noted where such code would be best handled server-side if this were a production-ready application.
+Because this is a static-hosted website with no live backend, I have leveraged local browser LocalStorage to persist uploaded files in memory for demonstration purposes. I have noted where such code would be best handled server-side if this were a production-ready application.
 
-## Page: Upload Properties CSV - `/upload`
+## Page: Upload Properties CSV - `/`
 
 ## Page: View Properties "API" - `/property` or `/property?id=<property_id>`
 
