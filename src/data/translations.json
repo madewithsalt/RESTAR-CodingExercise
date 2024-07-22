@@ -1,9 +1,23 @@
 {
+    "jp_to_api": {
+        "都道府県": "prefecture",
+        "市区町村": "city",
+        "町名": "town", 
+        "丁目": "chome",
+        "番地": "banchi",
+
+        "号": "go",
+        "建物名": "building",
+        "価格": "price",
+        "最寄駅": "nearest_station",
+        "物件タイプ": "property_type",
+        "敷地面積": "land_area"
+    },
     "en": {
         "prefecture": "Prefecture",
         "city": "City",
         "town": "Town",
-        "chome": "Block",
+        "chome": "Block Number",
         "banchi": "House Number",
 
         "go": "Number",
@@ -16,8 +30,8 @@
     "jp": {
         "prefecture": "都道府県",
         "city": "市区町村",
-        "town": "丁目",
-        "chome": "町名", 
+        "chome": "丁目",
+        "town": "町名", 
         "banchi": "番地",
 
         "go": "号",

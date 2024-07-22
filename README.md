@@ -39,5 +39,5 @@ Because this is a static-hosted website with no live backend, I have leveraged l
 
 ### Research & Resources
 
-- [Proper Japanese Address Formatting](https://www.post.japanpost.jp/int/use/writing/normal_en.html)
+- [Japanese Postal Address Primer](https://www.realestate-tokyo.com/living-in-tokyo/japan-info/japanese-address/)
 - [Translation Help](https://jisho.org)

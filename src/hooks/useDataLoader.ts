@@ -1,5 +1,6 @@
 import * as React from "react";
 import useMountedState from "../hooks/useMountedState";
+import { JPPropertyDataObject, PropertyInformation } from "../types/api";
 
 export const defaultFetchOptions = {
   method: "GET",
@@ -81,13 +82,13 @@ export const useDataLoader: useDataLoaderProps = ({ url }) => {
  * for demonstration purposes only
  */
 export interface useLocalStorageProps {
-  data: unknown,
+  data: PropertyInformation[],
   get: () => void;
-  set: (update: unknown) => void;
+  set: (update: PropertyInformation[]) => void;
 }
 
 export const useLocalStorage:({ name }: { name: string }) => useLocalStorageProps = ({ name }) => {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState<PropertyInformation[]>([]);
 
   React.useEffect(() => {
     const localData = localStorage.getItem(name);
@@ -101,13 +102,10 @@ export const useLocalStorage:({ name }: { name: string }) => useLocalStorageProp
     return data;
   }, [data]);
 
-  const set = React.useCallback((update: unknown) => {
-    setData(data);
-    localStorage.setItem(name, JSON.stringify([
-      ...data,
-      update
-    ]))
-  }, [data, name]);
+  const set = React.useCallback((update: PropertyInformation[]) => {
+    setData(update);
+    localStorage.setItem(name, JSON.stringify(update))
+  }, [name]);
 
   return {
     data,

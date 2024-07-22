@@ -21,10 +21,18 @@ const params = new URLSearchParams(location.search);
 
 const DATA = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-console.log(DATA);
+if (DATA && DATA.length > 0) {
+    const id = params.get('id');
+    const jsonData = JSON.parse(DATA);
 
-document.body.innerHTML = `
-    {
-        "test": "JSON"
+    console.log(jsonData);
+
+    // if an ID is passed and it is a valid entry, show only that.
+    if (id && DATA[parseFloat(id)]) {
+        document.body.innerHTML = JSON.stringify(jsonData[parseFloat(id)]);
+
+    // otherwise, fall back to showing entire list
+    } else {
+        document.body.innerHTML = DATA;
     }
-`;
+}

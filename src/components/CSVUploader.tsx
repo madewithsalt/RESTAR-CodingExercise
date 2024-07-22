@@ -1,28 +1,11 @@
 import React from "react";
 
 import { convertCSVtoJSON } from "../helpers/convertCSVtoJSON";
+import readFile from "../helpers/readFile";
+import { JPPropertyDataObject } from "../types/api";
 
 export interface CSVUploaderProps {
-    onFileUpload: (data: unknown[]) => void
-}
-
-/**
- * readFile: Recieves a file and returns a parsed string result.
- * @param file - File from input
- * @param callback - Return function after file read
- */
-export const readFile = (file: File, callback: (csvData: string) => void) => {
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    const csvData = e?.target?.result;
-    if (typeof csvData === "string") {
-      console.log(csvData);
-      return callback(csvData);
-    }
-  };
-
-  reader.readAsText(file);
+    onFileUpload: (data: JPPropertyDataObject[]) => void
 }
 
 export const CSVUploader:React.FC<CSVUploaderProps> = ({
@@ -58,12 +41,12 @@ export const CSVUploader:React.FC<CSVUploaderProps> = ({
             setError(null);
             setLoading(false);
 
-            onFileUpload(data);
+            onFileUpload(data as JPPropertyDataObject[]);
           });
         });
       }
     },
-    [loading, setLoading]
+    [loading, onFileUpload]
   );
 
   return (
@@ -80,11 +63,6 @@ export const CSVUploader:React.FC<CSVUploaderProps> = ({
         />
       </div>
       {loading ? <div>LOADING ...</div> : null}
-      {data ? (
-        <div>
-          <code>{JSON.stringify(data)}</code>
-        </div>
-      ) : null}
     </div>
   );
 };

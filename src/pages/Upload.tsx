@@ -14,7 +14,6 @@ function Upload() {
   React.useEffect(() => {
     if (data) {
       setLoading(false);
-      console.log(data);
     } else {
         get();
     }
@@ -26,9 +25,35 @@ function Upload() {
     <div>LOADING!</div>
   ) : (
     <div>
+      <div className="file-uploader">
+
+      </div>
         <h1>Upload File</h1>
         <PropertyDataManager onFileUpload={set} />
-        {data ? <div>{JSON.stringify(data)}</div> : null}
+
+    <div className="data-load-status">
+      {data ? (
+        <>
+          <hr />
+          <p>
+            {`${data.length} entries stored.`}
+          </p>
+          <p>
+            <a href="/property">View All Entries (JSON)</a>
+          </p>
+          <hr />
+          <p>
+            <h4>View Specific Property By Id</h4>
+            <a href="/property?id=100">View Specific Entry Example (100)</a>
+          </p>
+        </>
+      ) : (
+        <div>
+          <p>{`No Data Loaded Yet`}</p>
+
+        </div>
+      )}
+    </div>
     </div>
   );
 }
