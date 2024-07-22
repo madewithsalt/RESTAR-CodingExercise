@@ -5,17 +5,13 @@ import PropertyDataManager from "../modules/PropertyDataManager";
 
 function Upload() {
   const [loading, setLoading] = React.useState<boolean>(true);
-  const {
-      data,
-      get, 
-      set
-    } = useLocalStorage({ name: "properties" });
+  const { data, get, set } = useLocalStorage({ name: "properties" });
 
   React.useEffect(() => {
     if (data) {
       setLoading(false);
     } else {
-        get();
+      get();
     }
 
     return () => {};
@@ -25,35 +21,36 @@ function Upload() {
     <div>LOADING!</div>
   ) : (
     <div>
-      <div className="file-uploader">
+      <div className="file-uploader"></div>
+      <h1>Property Data Viewer</h1>
+      <PropertyDataManager onFileUpload={set} />
 
+      <div className="data-load-status">
+        {data && data.length ? (
+          <>
+            <hr />
+            <p>{`${data.length} entries stored.`}</p>
+            {data.length != 0 ? (
+              <>
+                <p>
+                  <a href="/property">View All Entries (JSON)</a>
+                </p>
+                <hr />
+                <div>
+                  <h4>View Specific Property By Id</h4>
+                  <a href="/property?id=100">
+                    View Specific Entry Example (100)
+                  </a>
+                </div>
+              </>
+            ) : null}
+          </>
+        ) : (
+          <div>
+            <p>{`No Data Loaded Yet. Please upload a valid CSV file.`}</p>
+          </div>
+        )}
       </div>
-        <h1>Upload File</h1>
-        <PropertyDataManager onFileUpload={set} />
-
-    <div className="data-load-status">
-      {data ? (
-        <>
-          <hr />
-          <p>
-            {`${data.length} entries stored.`}
-          </p>
-          <p>
-            <a href="/property">View All Entries (JSON)</a>
-          </p>
-          <hr />
-          <p>
-            <h4>View Specific Property By Id</h4>
-            <a href="/property?id=100">View Specific Entry Example (100)</a>
-          </p>
-        </>
-      ) : (
-        <div>
-          <p>{`No Data Loaded Yet`}</p>
-
-        </div>
-      )}
-    </div>
     </div>
   );
 }
