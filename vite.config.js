@@ -6,6 +6,7 @@ import react from "@vitejs/plugin-react";
 
 function Config() {
   return defineConfig({
+    base: "/RESTAR-CodingExercise/",
     plugins: [react(), dsv()],
     build: {
       rollupOptions: {
