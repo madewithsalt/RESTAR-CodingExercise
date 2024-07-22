@@ -13,7 +13,6 @@ export const CSVUploader:React.FC<CSVUploaderProps> = ({
 }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<null | string>(null);
-  const [data, setData] = React.useState<unknown>(null);
 
   const onChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +36,6 @@ export const CSVUploader:React.FC<CSVUploaderProps> = ({
 
         readFile(file, (result: string) => {
           convertCSVtoJSON(result, (data: unknown[]) => {
-            setData(data);
             setError(null);
             setLoading(false);
 
