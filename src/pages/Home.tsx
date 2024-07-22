@@ -1,6 +1,7 @@
+import React from "react";
 
 
-function Home() {
+const Home:React.FC = () => {
     return (
       <>
         <div>

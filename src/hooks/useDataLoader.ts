@@ -1,12 +1,11 @@
 import * as React from "react";
 import useMountedState from "../hooks/useMountedState";
-import { each } from "lodash";
 
 export const defaultFetchOptions = {
   method: "GET",
 };
 
-export type useDataLoaderFunc = (config: { url: string }) => {
+export type useDataLoaderProps = (config: { url: string }) => {
   error: Error | null;
   loading: boolean | null;
   data: unknown;
@@ -16,14 +15,14 @@ export type useDataLoaderFunc = (config: { url: string }) => {
 /**
  * @param url - the url to request.
  */
-export const useDataLoader: useDataLoaderFunc = ({ url }) => {
+export const useDataLoader: useDataLoaderProps = ({ url }) => {
   const isMounted = useMountedState();
   const [data, updateData] = React.useState<unknown>();
   const [error, setError] = React.useState<Error | null>(null);
   const [loading, setLoading] = React.useState<boolean | null>(null);
 
   /**
-   * @param fetchOptions - unknownthing allowed via [fetch params](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
+   * @param fetchOptions - anything allowed via [fetch params](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
    *
    */
   const handleRequest = React.useCallback(
@@ -75,42 +74,45 @@ export const useDataLoader: useDataLoaderFunc = ({ url }) => {
   };
 };
 
-export const useDataSender: ({ url }: { url: string }) => {
-  data: unknown;
-  error: Error | null;
-  saving: boolean | null;
-  handleSend(
-    values: { [name: string]: unknown },
-    fetchOptions?: unknown
-  ): Promise<unknown>;
-} = ({ url }) => {
-  const { data, error, loading, handleRequest } = useDataLoader({ url });
+/**
+ * Use Local Storage
+ * A simple getter-setter for specified LocalStorage data
+ * This is very loosely typed and unopinonated
+ * for demonstration purposes only
+ */
+export interface useLocalStorageProps {
+  data: unknown,
+  get: () => void;
+  set: (update: unknown) => void;
+}
 
-  const handleSend = React.useCallback(
-    (values: unknown) => {
-      // GET only in DEMO MODE.
-      return handleRequest();
+export const useLocalStorage:({ name }: { name: string }) => useLocalStorageProps = ({ name }) => {
+  const [data, setData] = React.useState([]);
 
-      // REAL LOGIC BELOW:
-      // this is the example of a POST with a body included.
-      // when your slim server accepts a POST to an endpoint
-      // you can use this to submit the form data from a view.
-      const formData = new FormData();
+  React.useEffect(() => {
+    const localData = localStorage.getItem(name);
 
-      each(values, (val, key) => formData.append(key, val));
+    if (localData) {
+      setData(JSON.parse(localData));
+    }
+  }, [name]);
 
-      return handleRequest({
-        method: "POST",
-        body: formData,
-      });
-    },
-    [handleRequest]
-  );
+  const get = React.useCallback(() => {
+    return data;
+  }, [data]);
+
+  const set = React.useCallback((update: unknown) => {
+    setData(data);
+    localStorage.setItem(name, JSON.stringify([
+      ...data,
+      update
+    ]))
+  }, [data, name]);
 
   return {
     data,
-    error,
-    saving: loading,
-    handleSend,
-  };
-};
+    get,
+    set
+  }
+}
+

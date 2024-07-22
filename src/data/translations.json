@@ -1,0 +1,31 @@
+{
+    "en": {
+        "prefecture": "Prefecture",
+        "city": "City",
+        "town": "Town",
+        "chome": "Block",
+        "banchi": "House Number",
+
+        "go": "Number",
+        "building": "Building",
+        "price": "Price",
+        "nearest_station": "Nearest Station",
+        "property_type": "Property Type",
+        "land_area": "Land Area"
+    },
+    "jp": {
+        "prefecture": "都道府県",
+        "city": "市区町村",
+        "town": "丁目",
+        "chome": "町名", 
+        "banchi": "番地",
+
+        "go": "号",
+        "building": "建物名",
+        "price": "価格",
+        "nearest_station": "最寄駅",
+        "property_type": "物件タイプ",
+        "land_area": "敷地面積"
+
+    }
+}

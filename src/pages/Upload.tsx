@@ -1,38 +1,36 @@
 import React from "react";
 
-// import { useGetData } from "../hooks/useDataLoader";
-
+import { useLocalStorage } from "../hooks/useDataLoader";
+import PropertyDataManager from "../modules/PropertyDataManager";
 
 function Upload() {
-    const [loading, setLoading] = React.useState<boolean>(true);
-    const data = false;
-    // const {
-    //     data
-    //   } = useGetData();
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const {
+      data,
+      get, 
+      set
+    } = useLocalStorage({ name: "properties" });
 
-      React.useEffect(() => {
-       if(data) {
-        setLoading(false);
-        console.log(data);
-       }
+  React.useEffect(() => {
+    if (data) {
+      setLoading(false);
+      console.log(data);
+    } else {
+        get();
+    }
 
-       return () => {};
-      }, [])
+    return () => {};
+  }, [data, get]);
 
-      return loading ? (
-        <div>
-            LOADING!
-        </div>
-      ) : (
-        <div>
-            {data ? (
-                <div>
-                    {JSON.stringify(data)}
-                </div>
-            ) : null }
-        </div>
-      );
-  }
-  
-  export default Upload;
-  
+  return loading ? (
+    <div>LOADING!</div>
+  ) : (
+    <div>
+        <h1>Upload File</h1>
+        <PropertyDataManager onFileUpload={set} />
+        {data ? <div>{JSON.stringify(data)}</div> : null}
+    </div>
+  );
+}
+
+export default Upload;
