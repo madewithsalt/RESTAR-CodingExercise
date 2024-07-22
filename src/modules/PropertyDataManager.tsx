@@ -1,18 +1,26 @@
 import React from "react";
 import CSVUploader from "../components/CSVUploader";
 
+import { useLocalStorage } from "../hooks/useDataLoader";
+import { PROPERTY_LOCALSTORAGE } from "../types/api";
+
+const LOCAL_STORAGE_KEY:PROPERTY_LOCALSTORAGE = "properties"; 
 
 export interface PropertyDataManagerProps {
-    onFileUpload: () => void;
 }
 
-export const PropertyDataManager:React.FC<PropertyDataManagerProps> = ({
-    onFileUpload
-}) => {
+export const PropertyDataManager:React.FC<PropertyDataManagerProps> = () => {
+    const {
+        data,
+        get,
+        set
+    } = useLocalStorage({ name: LOCAL_STORAGE_KEY });
 
-    const handleFileUploaded = React.useCallback(() => {
+    const handleFileUploaded = React.useCallback((data: unknown[]) => {
         // process file data and then send to uploader to save
-    }, [onFileUpload])
+        console.log("Ready to format?", data);
+        set(data);
+    }, [set]);
 
     return (
         <div className="module--property-data-manager">

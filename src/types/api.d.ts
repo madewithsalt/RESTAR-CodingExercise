@@ -1,3 +1,6 @@
+
+export type PROPERTY_LOCALSTORAGE = "properties";
+
 export interface PropertyInformation {
   id: string;
   full_address: string;

@@ -27,10 +27,12 @@ The rest was provided by `Vite.js` default React/Typescript project scaffolding.
 #### Uploader Behavior and LocalStorage
 Because this is a static-hosted website with no live backend, I have leveraged local browser DataStorage to persist uploaded files in memory for demonstration purposes. I have noted where such code would be best handled server-side if this were a production-ready application.
 
-### View Page
+## Page: Upload Properties CSV - `/upload`
 
-This is a simple view which allows you to view the data uploaded, and a list of files in memory that were uploaded.
+## Page: View Properties "API" - `/property` or `/property?id=<property_id>`
 
+- This is a simulated API endpoint which allows you to view the uploaded data in the correctly translated JSON format.
+- If an ID is provided, it will show only the values for that property ID.
 
 
 # Notes
