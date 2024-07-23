@@ -7,6 +7,10 @@ Source code for the Coding Exercise &amp; Assessment
 2. `npm install`: Install dependencies and build production example
 3. `npm run dev`: Run local development instance
 
+### Build Production version
+1. `npm run build`: Build project files into `dist` folder
+2. `npm start`: Run project in production mode locally
+
 ## Boilerplate Code
 The following files were set up using my 'basic' website scaffolding template. I use this for all of my mini projects and experiments, and was written prior to this exercise:
 
