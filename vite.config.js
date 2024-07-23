@@ -1,17 +1,17 @@
 /* eslint-disable no-undef */
 import { resolve } from "path";
 import dsv from "@rollup/plugin-dsv";
-import { defineConfig } from "vite";
+import { defineConfig, resolveConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 function Config() {
   return defineConfig({
-    base: "./",
+    base: "/RESTAR-CodingExercise/",
     plugins: [react(), dsv()],
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, "index.html"),
+          main: resolve(__dirname, "index.html"),
           property: resolve(__dirname, "property.html")
         },
       },

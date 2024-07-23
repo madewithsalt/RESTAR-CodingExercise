@@ -1,116 +1,50 @@
 import * as React from "react";
-import useMountedState from "../hooks/useMountedState";
-import { each } from "lodash";
+import { PropertyInformation, PROPERTY_LOCALSTORAGE } from "../types/api";
 
-export const defaultFetchOptions = {
-  method: "GET",
-};
+const LOCAL_STORAGE_KEY:PROPERTY_LOCALSTORAGE = "properties"; 
 
-export type useDataLoaderFunc = (config: { url: string }) => {
-  error: Error | null;
-  loading: boolean | null;
-  data: unknown;
-  handleRequest(fetchOptions?: unknown): Promise<unknown>;
-};
 
 /**
- * @param url - the url to request.
+ * Use Local Storage
+ * A simple getter-setter for specified LocalStorage data
+ * This is very loosely typed and unopinonated
+ * for demonstration purposes only
  */
-export const useDataLoader: useDataLoaderFunc = ({ url }) => {
-  const isMounted = useMountedState();
-  const [data, updateData] = React.useState<unknown>();
-  const [error, setError] = React.useState<Error | null>(null);
-  const [loading, setLoading] = React.useState<boolean | null>(null);
+export interface useLocalStorageProps {
+  data: PropertyInformation[],
+  get: () => void;
+  set: (update: PropertyInformation[]) => void;
+}
 
-  /**
-   * @param fetchOptions - unknownthing allowed via [fetch params](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
-   *
-   */
-  const handleRequest = React.useCallback(
-    (fetchOptions = {}) => {
-      setLoading(true);
+export const useLocalStorage:({ name }: { name: string }) => useLocalStorageProps = ({ name }) => {
+  const [data, setData] = React.useState<PropertyInformation[]>([]);
 
-      return fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        ...fetchOptions,
-      })
-        .then((response) => {
-          console.log(response);
-          return response.text();
-        })
-        .then((data) => {
-          if (!isMounted()) {
-            return;
-          }
+  React.useEffect(() => {
+    const localData = localStorage.getItem(name);
 
-          updateData(data);
-          setLoading(false);
-          setError(null);
+    if (localData) {
+      setData(JSON.parse(localData));
+    }
+  }, [name]);
 
-          return data;
-        })
-        .catch((error) => {
-          if (!isMounted()) {
-            return;
-          }
+  // retrieve data from localStorage if it exists,
+  // using the designated LOCAL_STORAGE_KEY
+  const get = React.useCallback(() => {
+    const rawData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const parsedJSON = rawData ? JSON.parse(rawData) : [];
+    setData(parsedJSON);
+    return ;
+  }, []);
 
-          updateData(null);
-          setError(error);
-          setLoading(false);
-
-          return error;
-        });
-    },
-    [isMounted, url]
-  );
+  const set = React.useCallback((update: PropertyInformation[]) => {
+    setData(update);
+    localStorage.setItem(name, JSON.stringify(update))
+  }, [name]);
 
   return {
     data,
-    error,
-    loading,
-    handleRequest,
-  };
-};
+    get,
+    set
+  }
+}
 
-export const useDataSender: ({ url }: { url: string }) => {
-  data: unknown;
-  error: Error | null;
-  saving: boolean | null;
-  handleSend(
-    values: { [name: string]: unknown },
-    fetchOptions?: unknown
-  ): Promise<unknown>;
-} = ({ url }) => {
-  const { data, error, loading, handleRequest } = useDataLoader({ url });
-
-  const handleSend = React.useCallback(
-    (values: unknown) => {
-      // GET only in DEMO MODE.
-      return handleRequest();
-
-      // REAL LOGIC BELOW:
-      // this is the example of a POST with a body included.
-      // when your slim server accepts a POST to an endpoint
-      // you can use this to submit the form data from a view.
-      const formData = new FormData();
-
-      each(values, (val, key) => formData.append(key, val));
-
-      return handleRequest({
-        method: "POST",
-        body: formData,
-      });
-    },
-    [handleRequest]
-  );
-
-  return {
-    data,
-    error,
-    saving: loading,
-    handleSend,
-  };
-};

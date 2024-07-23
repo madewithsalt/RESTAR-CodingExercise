@@ -8,7 +8,7 @@ Source code for the Coding Exercise &amp; Assessment
 3. `npm run dev`: Run local development instance
 
 ## Boilerplate Code
-The following files were set up using my 'basic' website scaffolding template. I use this for all of my mini projects and experiments, and the following files were written prior to this exercise:
+The following files were set up using my 'basic' website scaffolding template. I use this for all of my mini projects and experiments, and was written prior to this exercise:
 
 - Routing Structure using `react-router`
 - `useMountedState.ts`: page render stability, useful for pages with long load times that can be interrupted, such as when uploading files. 
